@@ -52,4 +52,14 @@ G1 GC 详细日志流程相对复杂。针对大内存时性能较好，小内�
 
 ## GC 在高并发下的实际效果
 
+: (
+
+```
+Unable to locate an executable at "/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home/bin/jvisualvm" (-1)
+
+Unable to locate an executable at "/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home/bin/jmc" (-1)
+```
+
+
+
 to be continued ：）
