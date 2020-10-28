@@ -60,6 +60,8 @@ Unable to locate an executable at "/Library/Java/JavaVirtualMachines/adoptopenjd
 Unable to locate an executable at "/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home/bin/jmc" (-1)
 ```
 
+fix: https://stackoverflow.com/questions/10873437/unable-to-locate-an-executable-at-usr-bin-java-bin-java-1
+
 
 
 to be continued ：）
