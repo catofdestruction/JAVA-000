@@ -47,9 +47,9 @@ public class OkHttpClientDemo {
         try {
             response = okHttpClient.newCall(request).execute();
             if (response.isSuccessful()) {
-                log.info("===> async get(success)\nresponse:\n{}", bodyString(response.body()));
+                log.info("===> sync get(success)\nresponse:\n{}", bodyString(response.body()));
             } else {
-                log.info("===> async get(failure)\nerror: {}({})", response.message(), response.code());
+                log.info("===> sync get(failure)\nerror: {}({})", response.message(), response.code());
             }
         } catch (IOException e) {
             e.printStackTrace();
