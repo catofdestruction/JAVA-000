@@ -21,6 +21,39 @@ CommandLine flags: -XX:InitialHeapSize=268435456 -XX:MaxHeapSize=4294967296 -XX:
 
 
 
-## 不同GC下，相同Xmx参数
+## 不同GC下，不同Xmx参数
+
+### SerialGC
+
+![](assets/2.jpg)
+
+![](assets/3.jpg)
+
+1. 串行 gc 使用 -Xms128m -Xmx128m 时，开始还能快速进行 young gc，后面直接全称 fullgc 一直到 oom，因为实际回收的内存不大，所以耗时较低。
+2. 串行 gc 提升 Xms -Xmx 后甚至不会发生 fullgc，可以看到回收到内存幅度较大，耗时较高，生成的对象变多。4g内存时甚至只发生了一次 young gc。
+
+### ParallelGC
+
+![](assets/4.jpg)
+
+并行 gc 行为差不太多，不同的是这里 将 -Xms4g -Xmx4g 设置为一样时，没有发生 fullgc，而开始测试时没有设置 -Xms 时发生了大量 fullgc。
+
+### CMS GC
+
+![](assets/5.jpg)
+
+CMS GC 使用 -Xms4g -Xmx4g 时没有发生 fullgc，1g时可以看到并发阶段。
+
+### G1 GC
+
+![](assets/6.jpg)
+
+G1 GC 详细日志流程相对复杂。针对大内存时性能较好，小内存时直接发生了 oom。
+
+
+
+
+
+
 
 to be continued...
