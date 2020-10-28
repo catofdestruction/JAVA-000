@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <property name="commonCharset" value="UTF-8"/>
+    <property name="logging.path" value="./logs/xy"/>
+    <property name="logging.level" value="INFO"/>
+    <property name="log.maxHistory" value="30"/>
+    <property name="log.maxSize" value="1GB"/>
+
+    <!-- 控制台输出 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %green([%thread]) %highlight(%-5level) %cyan(%logger{48}).%M:%L - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+
+    <appender name="LOCALHOST" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logging.path}/xy.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${logging.path}/xy.%d{yyyy-MM-dd}.log</FileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{48} - %msg %n</Pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="LOCALHOST"/>
+        <appender-ref ref="ERROR"/>
+    </root>
+</configuration>
