@@ -50,10 +50,6 @@ CMS GC 使用 -Xms4g -Xmx4g 时没有发生 fullgc，1g时可以看到并发阶�
 
 G1 GC 详细日志流程相对复杂。针对大内存时性能较好，小内存时直接发生了 oom。
 
+## GC 在高并发下的实际效果
 
-
-
-
-
-
-to be continued...
+to be continued ：）
