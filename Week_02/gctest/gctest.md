@@ -64,4 +64,14 @@ fix: https://stackoverflow.com/questions/10873437/unable-to-locate-an-executable
 
 
 
+ParallelGC: 吞吐高，但是每次 gc 延迟可能较高。
+
+CMS GC: 吞吐低，但每次 gc 延迟较低。
+
+G1 GC:  每次 gc 延迟可控，适宜大内存情况。
+
+finally 内存不能太小，内存高也是对系统的一个保护（不容器轻易被冲垮）。
+
+
+
 to be continued ：）
