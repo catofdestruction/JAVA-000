@@ -9,7 +9,14 @@ import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpUtil;
 import io.netty.util.ReferenceCountUtil;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.xy.gateway.outbound.handler.HttpOutboundHandler;
+import org.xy.gateway.outbound.handler.NettyOutboundHandler;
+import org.xy.gateway.outbound.handler.OkhttpOutboundHandler;
+
+import java.nio.charset.StandardCharsets;
+import java.util.Optional;
 
 import static io.netty.handler.codec.http.HttpHeaderNames.CONNECTION;
 import static io.netty.handler.codec.http.HttpHeaderValues.KEEP_ALIVE;
@@ -24,9 +31,55 @@ import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
  * @date 2020/11/3
  */
 @Slf4j
+@Getter
 public class HttpInboundHandler extends ChannelInboundHandlerAdapter {
 
+    private NettyOutboundHandler nettyOutboundHandler;
+
+    private HttpOutboundHandler httpOutboundHandler;
+
+    private OkhttpOutboundHandler okhttpOutboundHandler;
+
+    private final String proxyServer;
+
+    private final ClientMode clientMode;
+
     private long tempTimeStamp;
+
+    public enum ClientMode {
+        /**
+         * NETTY
+         */
+        NETTY,
+
+        /**
+         * HTTP_CLIENT
+         */
+        HTTP_CLIENT,
+
+        /**
+         * OKHTTP_CLIENT
+         */
+        OKHTTP_CLIENT
+    }
+
+    public HttpInboundHandler(String proxyServer, ClientMode clientMode) {
+        this.proxyServer = proxyServer;
+        this.clientMode = clientMode;
+        switch (clientMode) {
+            case NETTY:
+                nettyOutboundHandler = new NettyOutboundHandler(proxyServer);
+                break;
+            case HTTP_CLIENT:
+                httpOutboundHandler = new HttpOutboundHandler(proxyServer);
+                break;
+            case OKHTTP_CLIENT:
+                okhttpOutboundHandler = new OkhttpOutboundHandler(proxyServer);
+                break;
+            default:
+                throw new RuntimeException("unknown client mode" + clientMode);
+        }
+    }
 
     @Override
     public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
@@ -61,9 +114,21 @@ public class HttpInboundHandler extends ChannelInboundHandlerAdapter {
             String uri = fullRequest.uri();
             log.warn("\n====== channelRead(uri: {}) at {} ======\n", uri, tempTimeStamp);
             // todo: add router or mapping logic
-            handlerTest(fullRequest, ctx);
-//            handler.handle(fullRequest, ctx);
-        } catch(Exception e) {
+            switch (clientMode) {
+                case NETTY:
+                    nettyOutboundHandler.handle(fullRequest, ctx);
+                    break;
+                case HTTP_CLIENT:
+                    httpOutboundHandler.handle(fullRequest, ctx);
+                    break;
+                case OKHTTP_CLIENT:
+                    okhttpOutboundHandler.handle(fullRequest, ctx);
+                    break;
+                default:
+                    handleWithMock(fullRequest, ctx);
+                    throw new RuntimeException("unknown client mode" + clientMode);
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             ReferenceCountUtil.release(msg);
@@ -76,11 +141,19 @@ public class HttpInboundHandler extends ChannelInboundHandlerAdapter {
         log.warn("\n====== channel read complete(cost: {} ms) ======\n", System.currentTimeMillis() - tempTimeStamp);
     }
 
-    private void handlerTest(FullHttpRequest fullRequest, ChannelHandlerContext ctx) {
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
+        log.error(cause.getMessage());
+        cause.printStackTrace();
+        ctx.close();
+    }
+
+    private void handleWithMock(FullHttpRequest fullRequest, ChannelHandlerContext ctx) {
         FullHttpResponse response = null;
         try {
-            String value = "hello, xy";
-            response = new DefaultFullHttpResponse(HTTP_1_1, OK, Unpooled.wrappedBuffer(value.getBytes("UTF-8")));
+            String value = "hello, gateway";
+            response = new DefaultFullHttpResponse(HTTP_1_1, OK,
+                    Unpooled.wrappedBuffer(value.getBytes(StandardCharsets.UTF_8)));
             response.headers().set("Content-Type", "application/json");
             response.headers().setInt("Content-Length", response.content().readableBytes());
 
@@ -92,17 +165,10 @@ public class HttpInboundHandler extends ChannelInboundHandlerAdapter {
                 if (!HttpUtil.isKeepAlive(fullRequest)) {
                     ctx.write(response).addListener(ChannelFutureListener.CLOSE);
                 } else {
-                    response.headers().set(CONNECTION, KEEP_ALIVE);
+                    Optional.ofNullable(response).ifPresent(resp -> resp.headers().set(CONNECTION, KEEP_ALIVE));
                     ctx.write(response);
                 }
             }
         }
-    }
-
-    @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        log.error(cause.getMessage());
-        cause.printStackTrace();
-        ctx.close();
     }
 }

@@ -19,6 +19,7 @@ import org.xy.gateway.inbound.HttpInboundInitializer;
 
 /**
  * netty http server
+ * pipeline + filters(inbound requestFilter router outbound responseFilter ...)
  *
  * @author wangxinyu
  * @date 2020/11/3
@@ -77,7 +78,7 @@ public class NettyGateway extends HttpServer {
                            .handler(new LoggingHandler(LogLevel.INFO))
                            // H
                            // add custom ChannelHandler
-                           .childHandler(new HttpInboundInitializer(sslContext));
+                           .childHandler(new HttpInboundInitializer(proxyServer, sslContext));
             // C
             // Channel is a interface (should sync() after bind channel)
             Channel channel = serverBootstrap.bind(proxyPort).sync().channel();

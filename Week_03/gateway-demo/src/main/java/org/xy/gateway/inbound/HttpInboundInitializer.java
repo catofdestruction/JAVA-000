@@ -15,9 +15,11 @@ import io.netty.handler.ssl.SslContext;
  */
 public class HttpInboundInitializer extends ChannelInitializer<SocketChannel> {
 
+    private String proxyServer = null;
     private SslContext sslContext = null;
 
-    public HttpInboundInitializer(SslContext sslContext) {
+    public HttpInboundInitializer(String proxyServer, SslContext sslContext) {
+        this.proxyServer = proxyServer;
         this.sslContext = sslContext;
     }
 
@@ -34,6 +36,6 @@ public class HttpInboundInitializer extends ChannelInitializer<SocketChannel> {
 //        pipeline.addLast(new HttpServerExpectContinueHandler());
         pipeline.addLast(new HttpObjectAggregator(1024 * 1024));
         // custom ChannelHandler named HttpHandler
-        pipeline.addLast(new HttpInboundHandler());
+        pipeline.addLast(new HttpInboundHandler(proxyServer, HttpInboundHandler.ClientMode.OKHTTP_CLIENT));
     }
 }
