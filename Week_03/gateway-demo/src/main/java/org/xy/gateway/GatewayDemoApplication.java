@@ -8,7 +8,7 @@ package org.xy.gateway;
  */
 public class GatewayDemoApplication {
 
-    public final static String PROXY_SERVER = System.getProperty("proxyServer", "http://localhost:8088");
+    public final static String PROXY_SERVER = System.getProperty("proxyServer", "http://localhost:8801");
     public final static String PROXY_PORT = System.getProperty("proxyPort", "8167");
 
     public static void main(String[] args) {

@@ -7,7 +7,7 @@ import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.ssl.SslContext;
 
-import static org.xy.gateway.inbound.HttpInboundHandler.ClientMode.MOCK;
+import static org.xy.gateway.inbound.HttpInboundHandler.ClientMode.HTTP_CLIENT;
 
 /**
  * http inbound initializer
@@ -38,6 +38,6 @@ public class HttpInboundInitializer extends ChannelInitializer<SocketChannel> {
 //        pipeline.addLast(new HttpServerExpectContinueHandler())
         pipeline.addLast(new HttpObjectAggregator(1024 * 1024));
         // custom ChannelHandler named HttpHandler
-        pipeline.addLast(new HttpInboundHandler(proxyServer, MOCK));
+        pipeline.addLast(new HttpInboundHandler(proxyServer, HTTP_CLIENT));
     }
 }
