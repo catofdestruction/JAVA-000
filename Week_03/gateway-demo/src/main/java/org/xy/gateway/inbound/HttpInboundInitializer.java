@@ -7,6 +7,8 @@ import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.ssl.SslContext;
 
+import static org.xy.gateway.inbound.HttpInboundHandler.ClientMode.MOCK;
+
 /**
  * http inbound initializer
  *
@@ -15,8 +17,8 @@ import io.netty.handler.ssl.SslContext;
  */
 public class HttpInboundInitializer extends ChannelInitializer<SocketChannel> {
 
-    private String proxyServer = null;
-    private SslContext sslContext = null;
+    private final String proxyServer;
+    private final SslContext sslContext;
 
     public HttpInboundInitializer(String proxyServer, SslContext sslContext) {
         this.proxyServer = proxyServer;
@@ -33,9 +35,9 @@ public class HttpInboundInitializer extends ChannelInitializer<SocketChannel> {
 		}
 		// add a http codec to channel pipeline
         pipeline.addLast(new HttpServerCodec());
-//        pipeline.addLast(new HttpServerExpectContinueHandler());
+//        pipeline.addLast(new HttpServerExpectContinueHandler())
         pipeline.addLast(new HttpObjectAggregator(1024 * 1024));
         // custom ChannelHandler named HttpHandler
-        pipeline.addLast(new HttpInboundHandler(proxyServer, HttpInboundHandler.ClientMode.OKHTTP_CLIENT));
+        pipeline.addLast(new HttpInboundHandler(proxyServer, MOCK));
     }
 }

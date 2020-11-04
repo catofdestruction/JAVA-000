@@ -15,7 +15,7 @@ public interface GatewayHttpOutboundHandler {
      * handle
      *
      * @param fullRequest fullRequest
-     * @param ctx ctx
+     * @param ctx         ctx
      */
     void handle(final FullHttpRequest fullRequest, final ChannelHandlerContext ctx);
 }

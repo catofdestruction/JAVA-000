@@ -1,13 +1,8 @@
 package org.xy.gateway.inbound;
 
-import io.netty.buffer.Unpooled;
-import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.handler.codec.http.DefaultFullHttpResponse;
 import io.netty.handler.codec.http.FullHttpRequest;
-import io.netty.handler.codec.http.FullHttpResponse;
-import io.netty.handler.codec.http.HttpUtil;
 import io.netty.util.ReferenceCountUtil;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -15,14 +10,7 @@ import org.xy.gateway.outbound.handler.HttpOutboundHandler;
 import org.xy.gateway.outbound.handler.NettyOutboundHandler;
 import org.xy.gateway.outbound.handler.OkhttpOutboundHandler;
 
-import java.nio.charset.StandardCharsets;
-import java.util.Optional;
-
-import static io.netty.handler.codec.http.HttpHeaderNames.CONNECTION;
-import static io.netty.handler.codec.http.HttpHeaderValues.KEEP_ALIVE;
-import static io.netty.handler.codec.http.HttpResponseStatus.NO_CONTENT;
-import static io.netty.handler.codec.http.HttpResponseStatus.OK;
-import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
+import static org.xy.gateway.outbound.handler.ThreadPoolHttpOutboundHandler.handleResponse;
 
 /**
  * http inbound handler
@@ -60,7 +48,12 @@ public class HttpInboundHandler extends ChannelInboundHandlerAdapter {
         /**
          * OKHTTP_CLIENT
          */
-        OKHTTP_CLIENT
+        OKHTTP_CLIENT,
+
+        /**
+         * MOCK
+         */
+        MOCK
     }
 
     public HttpInboundHandler(String proxyServer, ClientMode clientMode) {
@@ -75,6 +68,8 @@ public class HttpInboundHandler extends ChannelInboundHandlerAdapter {
                 break;
             case OKHTTP_CLIENT:
                 okhttpOutboundHandler = new OkhttpOutboundHandler(proxyServer);
+                break;
+            case MOCK:
                 break;
             default:
                 throw new RuntimeException("unknown client mode" + clientMode);
@@ -124,8 +119,10 @@ public class HttpInboundHandler extends ChannelInboundHandlerAdapter {
                 case OKHTTP_CLIENT:
                     okhttpOutboundHandler.handle(fullRequest, ctx);
                     break;
+                case MOCK:
+                    handleResponse(fullRequest, ctx, null, true);
+                    break;
                 default:
-                    handleWithMock(fullRequest, ctx);
                     throw new RuntimeException("unknown client mode" + clientMode);
             }
         } catch (Exception e) {
@@ -146,29 +143,5 @@ public class HttpInboundHandler extends ChannelInboundHandlerAdapter {
         log.error(cause.getMessage());
         cause.printStackTrace();
         ctx.close();
-    }
-
-    private void handleWithMock(FullHttpRequest fullRequest, ChannelHandlerContext ctx) {
-        FullHttpResponse response = null;
-        try {
-            String value = "hello, gateway";
-            response = new DefaultFullHttpResponse(HTTP_1_1, OK,
-                    Unpooled.wrappedBuffer(value.getBytes(StandardCharsets.UTF_8)));
-            response.headers().set("Content-Type", "application/json");
-            response.headers().setInt("Content-Length", response.content().readableBytes());
-
-        } catch (Exception e) {
-            log.error("fatal error: ", e);
-            response = new DefaultFullHttpResponse(HTTP_1_1, NO_CONTENT);
-        } finally {
-            if (fullRequest != null) {
-                if (!HttpUtil.isKeepAlive(fullRequest)) {
-                    ctx.write(response).addListener(ChannelFutureListener.CLOSE);
-                } else {
-                    Optional.ofNullable(response).ifPresent(resp -> resp.headers().set(CONNECTION, KEEP_ALIVE));
-                    ctx.write(response);
-                }
-            }
-        }
     }
 }

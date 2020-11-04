@@ -18,7 +18,7 @@ public class NettyOutboundHandler extends ThreadPoolHttpOutboundHandler {
     }
 
     @Override
-    protected void handle(FullHttpRequest request, ChannelHandlerContext ctx, String url) {
+    protected void handle(final FullHttpRequest request, final ChannelHandlerContext ctx, final String url) {
 
     }
 }
