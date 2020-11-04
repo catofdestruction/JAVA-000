@@ -53,12 +53,13 @@ public class NettyGateway extends HttpServer {
             SelfSignedCertificate certificate = new SelfSignedCertificate();
             sslContext = SslContextBuilder.forServer(certificate.certificate(), certificate.privateKey()).build();
         }
-
+        // change EventLoopGroup to switch bio
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);
         EventLoopGroup workerGroup = new NioEventLoopGroup(16);
-
         try {
+            // B
             ServerBootstrap serverBootstrap = new ServerBootstrap();
+            // tcp & http options
             serverBootstrap.option(ChannelOption.SO_BACKLOG, 128)
                            .option(ChannelOption.TCP_NODELAY, true)
                            .option(ChannelOption.SO_KEEPALIVE, true)
@@ -68,17 +69,24 @@ public class NettyGateway extends HttpServer {
                            .option(EpollChannelOption.SO_REUSEPORT, true)
                            .childOption(ChannelOption.SO_KEEPALIVE, true)
                            .option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);
-
+            // E
+            // EventLoopGroup is subclass of java Executor
             serverBootstrap.group(bossGroup, workerGroup)
+                           // change ServerSocketChannel.class to switch bio
                            .channel(NioServerSocketChannel.class)
                            .handler(new LoggingHandler(LogLevel.INFO))
+                           // H
+                           // add custom ChannelHandler
                            .childHandler(new HttpInitializer(sslContext));
-
+            // C
+            // Channel is a interface (should sync() after bind channel)
             Channel channel = serverBootstrap.bind(proxyPort).sync().channel();
             log.warn("{}({}) started at http://localhost:{} for server: {} ssl: {}",
                     GATEWAY_NAME, GATEWAY_VERSION, proxyPort, proxyServer, ssl);
+            // channel sync() will block the process (main thread)
             channel.closeFuture().sync();
         } finally {
+            // shut down gracefully
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
         }

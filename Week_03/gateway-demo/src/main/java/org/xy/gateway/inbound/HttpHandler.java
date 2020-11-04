@@ -26,37 +26,39 @@ import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 @Slf4j
 public class HttpHandler extends ChannelInboundHandlerAdapter {
 
+    private long tempTimeStamp;
+
     @Override
     public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
-        log.info("\n===> channel registered\n");
+        log.info("<<< channel registered >>>");
         super.channelRegistered(ctx);
     }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        log.info("\n===> channel active\n");
+        log.info("<<< channel active >>>");
         super.channelActive(ctx);
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        log.info("\n===> channel inactive\n");
+        log.info("<<< channel inactive >>>");
         super.channelInactive(ctx);
     }
 
     @Override
     public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
-        log.info("\n===> channel unregistered\n");
+        log.info("<<< channel unregistered >>>");
         super.channelUnregistered(ctx);
     }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        tempTimeStamp = System.currentTimeMillis();
         try {
-            log.warn("\n===> channelRead, timestamp {}\n", System.currentTimeMillis());
             FullHttpRequest fullRequest = (FullHttpRequest) msg;
             String uri = fullRequest.uri();
-            log.warn("\n===> uri {}\n", uri);
+            log.warn("\n====== channelRead(uri: {}) at {} ======\n", uri, tempTimeStamp);
 
             handlerTest(fullRequest, ctx);
 //            handler.handle(fullRequest, ctx);
@@ -69,7 +71,7 @@ public class HttpHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) {
-        log.warn("\n===> channel read complete\n");
+        log.warn("\n====== channel read complete(cost: {} ms) ======\n", System.currentTimeMillis() - tempTimeStamp);
         ctx.flush();
     }
 
@@ -98,6 +100,7 @@ public class HttpHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
+        log.error(cause.getMessage());
         cause.printStackTrace();
         ctx.close();
     }

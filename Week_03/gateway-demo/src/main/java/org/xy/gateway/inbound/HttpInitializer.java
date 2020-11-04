@@ -24,12 +24,16 @@ public class HttpInitializer extends ChannelInitializer<SocketChannel> {
     @Override
     protected void initChannel(SocketChannel ch) {
         ChannelPipeline pipeline = ch.pipeline();
+        // using addLast to add ChannelHandler to channel pipeline
+        // such as SslHandler, HttpServerCodec, HttpObjectAggregator, HttpHandler ....
 		if (sslContext != null) {
 			pipeline.addLast(sslContext.newHandler(ch.alloc()));
 		}
+		// add a http codec to channel pipeline
         pipeline.addLast(new HttpServerCodec());
 //        pipeline.addLast(new HttpServerExpectContinueHandler());
         pipeline.addLast(new HttpObjectAggregator(1024 * 1024));
+        // custom ChannelHandler named HttpHandler
         pipeline.addLast(new HttpHandler());
     }
 }
