@@ -8,16 +8,16 @@ import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.ssl.SslContext;
 
 /**
- * http initializer
+ * http inbound initializer
  *
  * @author wangxinyu
  * @date 2020/11/3
  */
-public class HttpInitializer extends ChannelInitializer<SocketChannel> {
+public class HttpInboundInitializer extends ChannelInitializer<SocketChannel> {
 
     private SslContext sslContext = null;
 
-    public HttpInitializer(SslContext sslContext) {
+    public HttpInboundInitializer(SslContext sslContext) {
         this.sslContext = sslContext;
     }
 
@@ -34,6 +34,6 @@ public class HttpInitializer extends ChannelInitializer<SocketChannel> {
 //        pipeline.addLast(new HttpServerExpectContinueHandler());
         pipeline.addLast(new HttpObjectAggregator(1024 * 1024));
         // custom ChannelHandler named HttpHandler
-        pipeline.addLast(new HttpHandler());
+        pipeline.addLast(new HttpInboundHandler());
     }
 }

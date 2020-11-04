@@ -18,13 +18,13 @@ import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
 /**
- * http handler
+ * http inbound handler
  *
  * @author wangxinyu
  * @date 2020/11/3
  */
 @Slf4j
-public class HttpHandler extends ChannelInboundHandlerAdapter {
+public class HttpInboundHandler extends ChannelInboundHandlerAdapter {
 
     private long tempTimeStamp;
 
@@ -56,10 +56,11 @@ public class HttpHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         tempTimeStamp = System.currentTimeMillis();
         try {
+            // get HttpRequest for HttpServerCodec config in ChannelPipeline
             FullHttpRequest fullRequest = (FullHttpRequest) msg;
             String uri = fullRequest.uri();
             log.warn("\n====== channelRead(uri: {}) at {} ======\n", uri, tempTimeStamp);
-
+            // todo: add router or mapping logic
             handlerTest(fullRequest, ctx);
 //            handler.handle(fullRequest, ctx);
         } catch(Exception e) {
@@ -71,8 +72,8 @@ public class HttpHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) {
-        log.warn("\n====== channel read complete(cost: {} ms) ======\n", System.currentTimeMillis() - tempTimeStamp);
         ctx.flush();
+        log.warn("\n====== channel read complete(cost: {} ms) ======\n", System.currentTimeMillis() - tempTimeStamp);
     }
 
     private void handlerTest(FullHttpRequest fullRequest, ChannelHandlerContext ctx) {

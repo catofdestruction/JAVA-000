@@ -15,7 +15,7 @@ import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.SelfSignedCertificate;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.xy.gateway.inbound.HttpInitializer;
+import org.xy.gateway.inbound.HttpInboundInitializer;
 
 /**
  * netty http server
@@ -77,7 +77,7 @@ public class NettyGateway extends HttpServer {
                            .handler(new LoggingHandler(LogLevel.INFO))
                            // H
                            // add custom ChannelHandler
-                           .childHandler(new HttpInitializer(sslContext));
+                           .childHandler(new HttpInboundInitializer(sslContext));
             // C
             // Channel is a interface (should sync() after bind channel)
             Channel channel = serverBootstrap.bind(proxyPort).sync().channel();
