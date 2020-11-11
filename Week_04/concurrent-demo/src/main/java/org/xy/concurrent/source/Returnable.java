@@ -40,6 +40,7 @@ public interface Returnable<V> {
      */
     default int fibo(int v, boolean optimized) {
         if (optimized) {
+            // todo
             return 0;
         }
         if (v < 2) {
@@ -56,7 +57,7 @@ public interface Returnable<V> {
     default int fibo40() {
         long start = System.currentTimeMillis();
         int result = fibo(40, false);
-        log.warn("{} [{} in {}] compute fibo result: {} cost: {} ms {}",
+        log.warn("{} [{} in {}] compute fibo40 result: {} cost: {} ms {}",
                 LINES, name(), Thread.currentThread(), result, System.currentTimeMillis() - start, LINES);
         return result;
     }

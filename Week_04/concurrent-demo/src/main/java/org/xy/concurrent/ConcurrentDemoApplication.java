@@ -17,7 +17,7 @@ import static org.xy.concurrent.source.RRWWB.LINE;
  * @date 2020/11/10
  */
 @Slf4j
-@SpringBootApplication(scanBasePackages = {"org.xy.concurrent.*"})
+@SpringBootApplication(scanBasePackages = {"org.xy.concurrent"})
 public class ConcurrentDemoApplication {
 
     private static List<Returnable<Integer>> returnables;
@@ -41,8 +41,7 @@ public class ConcurrentDemoApplication {
             log.info("\n{} {} {}\n", LINE, r.name(), LINE);
             log.warn("\n[{} in {}] start ...\n", r.name(), Thread.currentThread());
             Integer integer = r.doReturn();
-            log.warn("\n[{} in {}] end & active thread count: {}\n",
-                    r.name(), Thread.currentThread(), Thread.activeCount());
+            log.warn("\n[{} in {}] end ...\n", r.name(), Thread.currentThread());
         });
     }
 }
