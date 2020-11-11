@@ -8,6 +8,7 @@ package org.xy.concurrent.source;
  */
 public abstract class RRWWB {
 
+    public static final Integer SPRING_BOOT_MAIN_ACTIVE_THREAD_COUNT = 19;
     public static final Integer TIMEOUT = 81000;
     public static final String LINE =
             "==========================================================================================";

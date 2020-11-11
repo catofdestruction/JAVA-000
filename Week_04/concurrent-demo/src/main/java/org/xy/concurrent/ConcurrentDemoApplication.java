@@ -31,6 +31,12 @@ public class ConcurrentDemoApplication {
         log.info("Application start ...");
         SpringApplication.run(ConcurrentDemoApplication.class, args);
         log.info("Application started ...");
+
+        log.info("\n{} {} threads {}\n", LINE, Thread.currentThread().getThreadGroup().activeCount(), LINE);
+        Thread.currentThread().getThreadGroup().list();
+        log.info("\n{} {} threads {}\n", LINE, Thread.currentThread().getThreadGroup().getParent().activeCount(), LINE);
+        Thread.currentThread().getThreadGroup().getParent().list();
+
         returnables.forEach(r -> {
             log.info("\n{} {} {}\n", LINE, r.name(), LINE);
             log.warn("\n[{} in {}] start ...\n", r.name(), Thread.currentThread());
