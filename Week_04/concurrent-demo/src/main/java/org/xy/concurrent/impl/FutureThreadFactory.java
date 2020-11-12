@@ -38,7 +38,7 @@ public class FutureThreadFactory implements ThreadFactory, Returnable<Integer> {
         try {
             return Executors.newSingleThreadExecutor(this)
                             .submit(this::fibo40)
-                            .get(TIMEOUT, TimeUnit.SECONDS);
+                            .get(TIMEOUT, TimeUnit.MILLISECONDS);
         } catch (InterruptedException | TimeoutException | ExecutionException e) {
             e.printStackTrace();
         }
