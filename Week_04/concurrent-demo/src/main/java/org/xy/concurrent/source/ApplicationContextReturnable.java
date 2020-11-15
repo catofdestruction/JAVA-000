@@ -2,6 +2,7 @@ package org.xy.concurrent.source;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 
 /**
  * application context returnable
@@ -9,7 +10,7 @@ import org.springframework.context.ApplicationContext;
  * @author wangxinyu
  * @date 2020/11/15
  */
-public abstract class ApplicationContextReturnable implements Returnable<Integer> {
+public abstract class ApplicationContextReturnable implements Returnable<Integer>, ApplicationContextAware {
 
     private ApplicationContext applicationContext;
 

@@ -2,7 +2,6 @@ package org.xy.concurrent.source;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContextAware;
 
 import static org.xy.concurrent.source.RRWWB.LINES;
 
@@ -12,7 +11,7 @@ import static org.xy.concurrent.source.RRWWB.LINES;
  * @author wangxinyu
  * @date 2020/11/10
  */
-public interface Returnable<V> extends ApplicationContextAware {
+public interface Returnable<V> {
 
     Logger log = LoggerFactory.getLogger(Returnable.class);
 
