@@ -74,4 +74,17 @@ public interface Returnable<V> {
                 LINES, name(false), Thread.currentThread(), result, System.currentTimeMillis() - start, LINES);
         return result;
     }
+
+    /**
+     * optimized fibo 40
+     *
+     * @return fibo 40
+     */
+    default int optimizedFibo40() {
+        long start = System.currentTimeMillis();
+        int result = fibo(40, true);
+        log.warn("{} [{} in {}] compute fibo40 result: {} cost: {} ms {}",
+                LINES, name(false), Thread.currentThread(), result, System.currentTimeMillis() - start, LINES);
+        return result;
+    }
 }
