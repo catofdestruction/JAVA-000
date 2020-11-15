@@ -4,7 +4,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.xy.concurrent.source.ApplicationContextReturnable;
 
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * reentrant lock
@@ -18,7 +18,7 @@ public class LockSupport extends ApplicationContextReturnable {
 
     @Override
     public Integer doReturn() {
-        AtomicReference<Integer> result = new AtomicReference<>();
+        AtomicInteger result = new AtomicInteger();
         Thread main = Thread.currentThread();
         Thread thread = new Thread(() -> {
             result.set(fibo40());

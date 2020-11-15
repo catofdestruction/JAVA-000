@@ -4,7 +4,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.xy.concurrent.source.ApplicationContextReturnable;
 
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -24,7 +24,7 @@ public class LockWithCondition extends ApplicationContextReturnable {
 
     @Override
     public Integer doReturn() {
-        AtomicReference<Integer> result = new AtomicReference<>();
+        AtomicInteger result = new AtomicInteger();
         Thread main = Thread.currentThread();
         lock.lock();
         try {
