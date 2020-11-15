@@ -40,12 +40,24 @@ public interface Returnable<V> {
      * @return int
      */
     default int fibo(final int v, final boolean optimized) {
-        if (optimized) {
-            // todo
+        // 0 1 1 2 3 5 8 13 21 34
+        if (v <= 0) {
             return 0;
         }
-        if (v < 2) {
+        if (v <= 2) {
             return 1;
+        }
+        if (optimized) {
+            int f0 = 0;
+            int f1 = 1;
+            int result = 0;
+            int i = 2;
+            while (i++ <= v) {
+                result = f0 + f1;
+                f0 = f1;
+                f1 = result;
+            }
+            return result;
         }
         return fibo(v - 1, false) + fibo(v - 2, false);
     }
@@ -53,7 +65,7 @@ public interface Returnable<V> {
     /**
      * fibo 40 with recursion
      *
-     * @return fibo 40
+     * @return fibo 40 (102334155)
      */
     default int fibo40() {
         long start = System.currentTimeMillis();
