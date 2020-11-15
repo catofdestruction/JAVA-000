@@ -1,16 +1,18 @@
 package org.xy.concurrent.impl;
 
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import org.xy.concurrent.source.Returnable;
+import org.xy.concurrent.source.ApplicationContextReturnable;
 
 /**
- * join
+ * wait and notify
  *
  * @author wangxinyu
  * @date 2020/11/11
  */
+@Order(3)
 @Component
-public class WaitAndNotify implements Returnable<Integer> {
+public class WaitAndNotify extends ApplicationContextReturnable {
 
     private volatile Integer result = null;
 
@@ -21,7 +23,7 @@ public class WaitAndNotify implements Returnable<Integer> {
             synchronized (this) {
                 notify();
             }
-        }, name());
+        }, name(false));
         thread.start();
         try {
             // https://stackoverflow.com/questions/7126550/java-wait-and-notify-illegalmonitorstateexception

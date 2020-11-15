@@ -1,7 +1,8 @@
 package org.xy.concurrent.impl;
 
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import org.xy.concurrent.source.Returnable;
+import org.xy.concurrent.source.ApplicationContextReturnable;
 
 import static org.xy.concurrent.source.RRWWB.SPRING_BOOT_MAIN_ACTIVE_THREAD_COUNT;
 
@@ -11,14 +12,15 @@ import static org.xy.concurrent.source.RRWWB.SPRING_BOOT_MAIN_ACTIVE_THREAD_COUN
  * @author wangxinyu
  * @date 2020/11/11
  */
+@Order(1)
 @Component
-public class Yield implements Returnable<Integer> {
+public class Yield extends ApplicationContextReturnable {
 
     private volatile Integer result = null;
 
     @Override
     public Integer doReturn() {
-        Thread thread = new Thread(() -> result = fibo40(), name());
+        Thread thread = new Thread(() -> result = fibo40(), name(false));
         thread.start();
         while (Thread.activeCount() > SPRING_BOOT_MAIN_ACTIVE_THREAD_COUNT) {
             Thread.yield();

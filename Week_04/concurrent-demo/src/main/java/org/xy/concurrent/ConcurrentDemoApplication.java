@@ -32,16 +32,14 @@ public class ConcurrentDemoApplication {
         SpringApplication.run(ConcurrentDemoApplication.class, args);
         log.info("Application started ...");
 
+        // spring boot starts with 3 & spring boot web starts with 19
         log.info("\n{} {} threads {}\n", LINE, Thread.currentThread().getThreadGroup().activeCount(), LINE);
         Thread.currentThread().getThreadGroup().list();
         log.info("\n{} {} threads {}\n", LINE, Thread.currentThread().getThreadGroup().getParent().activeCount(), LINE);
         Thread.currentThread().getThreadGroup().getParent().list();
 
-        returnables.forEach(r -> {
-            log.info("\n{} {} {}\n", LINE, r.name(), LINE);
-            log.warn("\n[{} in {}] start ...\n", r.name(), Thread.currentThread());
-            Integer integer = r.doReturn();
-            log.warn("\n[{} in {}] end ...\n", r.name(), Thread.currentThread());
-        });
+        returnables.forEach(Returnable::doReturn);
+
+        log.info("\n{} THE END {}\n", LINE, LINE);
     }
 }

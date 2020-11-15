@@ -2,6 +2,7 @@ package org.xy.concurrent.source;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContextAware;
 
 import static org.xy.concurrent.source.RRWWB.LINES;
 
@@ -11,7 +12,7 @@ import static org.xy.concurrent.source.RRWWB.LINES;
  * @author wangxinyu
  * @date 2020/11/10
  */
-public interface Returnable<V> {
+public interface Returnable<V> extends ApplicationContextAware {
 
     Logger log = LoggerFactory.getLogger(Returnable.class);
 
@@ -25,10 +26,11 @@ public interface Returnable<V> {
     /**
      * name
      *
+     * @param pro pro
      * @return name
      */
-    default String name() {
-        return this.getClass().getSimpleName();
+    default String name(boolean pro) {
+        return pro ? this.getClass().getTypeName() : this.getClass().getSimpleName();
     }
 
     /**
@@ -58,7 +60,7 @@ public interface Returnable<V> {
         long start = System.currentTimeMillis();
         int result = fibo(40, false);
         log.warn("{} [{} in {}] compute fibo40 result: {} cost: {} ms {}",
-                LINES, name(), Thread.currentThread(), result, System.currentTimeMillis() - start, LINES);
+                LINES, name(false), Thread.currentThread(), result, System.currentTimeMillis() - start, LINES);
         return result;
     }
 }
