@@ -14,13 +14,13 @@
 
     <aop:config>
         <!--切点-->
-        <aop:pointcut expression="execution(* org.xy.spring.source.RRWWB.runReturnables())" id="p1"/>
+        <aop:pointcut expression="execution(* org.xy.spring.source.RRWWB.runReturnables())" id="aopByXml"/>
         <!--切面 -->
         <aop:aspect ref="runReturnablesAopByXml">
             <!--前置通知-->
-            <aop:before method="before" pointcut-ref="p1"/>
+            <aop:before method="before" pointcut-ref="aopByXml"/>
             <!--后置通知-->
-            <aop:after-returning method="after" pointcut-ref="p1"/>
+            <aop:after-returning method="after" pointcut-ref="aopByXml"/>
         </aop:aspect>
     </aop:config>
 

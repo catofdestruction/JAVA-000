@@ -9,7 +9,17 @@ server:
 
 spring:
   application:
-    name: ConcurrentDemo
-  profiles:
-    active: dev
+    name: SpringBootDemo
+  messages:
+    basename: messages
+    encoding: UTF-8
+  data:
+    redis:
+      repositories:
+        enabled: false
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/xydb?characterEncoding=UTF-8&autoReconnect=true&useSSL=false
+    username: xy
+    password: xy
 

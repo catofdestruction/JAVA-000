@@ -1,9 +1,15 @@
 package org.xy.spring.source;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.xy.spring.jdbc.JdbcUtils;
+import org.xy.spring.jdbc.model.ConcurrentResult;
 
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * rr(run rune) ww(ww bar) b(block)
@@ -11,6 +17,7 @@ import java.util.List;
  * @author wangxinyu
  * @date 2020/11/11
  */
+@Slf4j
 @Component
 public class RRWWB {
 
@@ -25,6 +32,18 @@ public class RRWWB {
     private List<Returnable<Integer>> returnables;
 
     public void runReturnables() {
-        returnables.forEach(Returnable::doReturn);
+        List<ConcurrentResult> results =
+                returnables.stream()
+                           .map(returnable -> {
+                               long start = System.currentTimeMillis();
+                               Integer result = Optional.ofNullable(returnable.doReturn()).orElse(-1);
+                               int duration = (int) (System.currentTimeMillis() - start);
+                               return new ConcurrentResult(returnable.name(true), duration, result);
+                           }).collect(Collectors.toList());
+        try {
+            JdbcUtils.batchInsert(results, true);
+        } catch (SQLException throwable) {
+            throwable.printStackTrace();
+        }
     }
 }
