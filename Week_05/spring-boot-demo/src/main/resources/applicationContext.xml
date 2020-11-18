@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                            http://www.springframework.org/schema/beans/spring-beans.xsd
+                            http://www.springframework.org/schema/aop
+                            https://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <bean id="runReturnablesAopByXml" class="org.xy.spring.source.RunReturnablesAopByXml"/>
+
+    <aop:aspectj-autoproxy/>
+    <!--    <aop:aspectj-autoproxy proxy-target-class="true" />-->
+
+    <aop:config>
+        <!--切点-->
+        <aop:pointcut expression="execution(* org.xy.spring.source.RRWWB.runReturnables())" id="p1"/>
+        <!--切面 -->
+        <aop:aspect ref="runReturnablesAopByXml">
+            <!--前置通知-->
+            <aop:before method="before" pointcut-ref="p1"/>
+            <!--后置通知-->
+            <aop:after-returning method="after" pointcut-ref="p1"/>
+        </aop:aspect>
+    </aop:config>
+
+</beans>
