@@ -1,10 +1,8 @@
-package org.xy.concurrent.impl;
+package org.xy.spring.impl;
 
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import org.xy.concurrent.source.ApplicationContextReturnable;
-
-import static org.xy.concurrent.source.RRWWB.SPRING_BOOT_MAIN_ACTIVE_THREAD_COUNT;
+import org.xy.spring.source.ApplicationContextReturnable;
 
 /**
  * simple
@@ -12,9 +10,9 @@ import static org.xy.concurrent.source.RRWWB.SPRING_BOOT_MAIN_ACTIVE_THREAD_COUN
  * @author wangxinyu
  * @date 2020/11/11
  */
-@Order(1)
+@Order(0)
 @Component
-public class Yield extends ApplicationContextReturnable {
+public class Simple extends ApplicationContextReturnable {
 
     private volatile Integer result = null;
 
@@ -22,9 +20,7 @@ public class Yield extends ApplicationContextReturnable {
     public Integer doReturn() {
         Thread thread = new Thread(() -> result = fibo40(), name(false));
         thread.start();
-        while (Thread.activeCount() > SPRING_BOOT_MAIN_ACTIVE_THREAD_COUNT) {
-            Thread.yield();
-        }
+        while (result == null) {}
         return result;
     }
 }

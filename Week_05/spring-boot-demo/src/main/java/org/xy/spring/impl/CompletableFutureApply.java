@@ -1,8 +1,8 @@
-package org.xy.concurrent.impl;
+package org.xy.spring.impl;
 
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import org.xy.concurrent.source.ApplicationContextReturnable;
+import org.xy.spring.source.ApplicationContextReturnable;
 
 import java.util.concurrent.CompletableFuture;
 

@@ -1,4 +1,4 @@
-package org.xy.concurrent.source;
+package org.xy.spring.source;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

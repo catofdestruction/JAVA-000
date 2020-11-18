@@ -1,13 +1,13 @@
-package org.xy.concurrent.impl;
+package org.xy.spring.impl;
 
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import org.xy.concurrent.source.ApplicationContextReturnable;
+import org.xy.spring.source.ApplicationContextReturnable;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import static org.xy.concurrent.source.RRWWB.TIMEOUT;
+import static org.xy.spring.source.RRWWB.TIMEOUT;
 
 /**
  * exchanger

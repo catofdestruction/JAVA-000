@@ -1,4 +1,4 @@
-package org.xy.concurrent.source;
+package org.xy.spring.source;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
-import static org.xy.concurrent.source.RRWWB.LINE;
+import static org.xy.spring.source.RRWWB.LINE;
 
 /**
  * returnable aop
@@ -25,7 +25,7 @@ import static org.xy.concurrent.source.RRWWB.LINE;
 @Component
 public class ReturnableAop {
 
-    @Pointcut(value="execution(* org.xy.concurrent.source.Returnable.doReturn(..))")
+    @Pointcut(value="execution(* org.xy.spring.source.Returnable.doReturn(..))")
     public void point(){
 
     }
