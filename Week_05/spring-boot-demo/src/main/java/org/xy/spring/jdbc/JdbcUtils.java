@@ -78,13 +78,18 @@ public class JdbcUtils {
     /**
      * batch insert
      * ref: https://www.liaoxuefeng.com/wiki/1252599548343744/1322290857902113
+     * ref: https://www.liaoxuefeng.com/wiki/1252599548343744/1321748500840481
      *
      * @param results List of ConcurrentResult
      * @param showSql showSql
      * @throws SQLException SQLException
      */
     public static void batchInsert(List<ConcurrentResult> results, boolean showSql) throws SQLException {
-        try (Connection connection = getDataSource().getConnection()) {
+        Connection connection = getDataSource().getConnection();
+        try {
+            connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+            // 关闭自动提交事务
+            connection.setAutoCommit(false);
             try (PreparedStatement preparedStatement = connection.prepareStatement(
                     "INSERT INTO concurrent_trip (name, duration, result) VALUES (?, ?, ?)")) {
                 // 对同一个PreparedStatement反复设置参数并调用addBatch():
@@ -101,6 +106,17 @@ public class JdbcUtils {
                 // 执行batch:
                 preparedStatement.executeBatch();
             }
+            // 提交事务:
+            connection.commit();
+        } catch (SQLException throwable) {
+            // 回滚事务:
+            connection.rollback();
+            throwable.printStackTrace();
+            log.warn("roll back!!!");
+        } finally {
+            // 恢复AutoCommit设置
+            connection.setAutoCommit(true);
+            connection.close();
         }
     }
 
