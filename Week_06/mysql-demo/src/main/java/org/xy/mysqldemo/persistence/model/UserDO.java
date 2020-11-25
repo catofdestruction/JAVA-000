@@ -53,6 +53,6 @@ public class UserDO extends IdDO {
     /**
      * order list
      */
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<OrderDO> orders;
 }

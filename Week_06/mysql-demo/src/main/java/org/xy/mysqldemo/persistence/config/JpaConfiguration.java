@@ -16,6 +16,7 @@ import org.xy.mysqldemo.persistence.service.PersistenceServicePackage;
  * @date 2020/11/25
  */
 @Configuration
+@EnableQuerydsl
 @EnableJpaAuditing
 @ComponentScan(basePackageClasses = {PersistenceServicePackage.class})
 @EntityScan(basePackageClasses = {PersistenceDOPackage.class})
