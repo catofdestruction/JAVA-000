@@ -15,4 +15,20 @@ spring:
     encoding: UTF-8
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/xydb?characterEncoding=UTF-8&autoReconnect=true&useSSL=false
+    url: jdbc:mysql://localhost:3306/jddb?characterEncoding=UTF-8&autoReconnect=true&useSSL=false
+    username: jd
+    password: jd
+    hikari:
+      maximum-pool-size: 50
+      connection-timeout: 120000
+      connection-test-query: "select version()"
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    showSql: true
+    hibernate:
+      ddl-auto: update
+      use-new-id-generator-mappings: false
+    properties:
+      hibernate:
+        enable_lazy_load_no_trans: true

@@ -1,10 +1,10 @@
 package org.xy.mysqldemo.persistence.model;
 
 /**
- * persistence model package
+ * persistence do package
  *
  * @author wangxinyu
  * @date 2020/11/25
  */
-public interface PersistenceModelPackage {
+public interface PersistenceDOPackage {
 }

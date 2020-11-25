@@ -5,7 +5,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.xy.mysqldemo.persistence.model.PersistenceModelPackage;
+import org.xy.mysqldemo.persistence.model.PersistenceDOPackage;
 import org.xy.mysqldemo.persistence.repository.PersistenceRepositoryPackage;
 import org.xy.mysqldemo.persistence.service.PersistenceServicePackage;
 
@@ -18,7 +18,7 @@ import org.xy.mysqldemo.persistence.service.PersistenceServicePackage;
 @Configuration
 @EnableJpaAuditing
 @ComponentScan(basePackageClasses = {PersistenceServicePackage.class})
-@EntityScan(basePackageClasses = {PersistenceModelPackage.class})
+@EntityScan(basePackageClasses = {PersistenceDOPackage.class})
 @EnableJpaRepositories(basePackageClasses = {PersistenceRepositoryPackage.class})
 public class JpaConfiguration {
 
