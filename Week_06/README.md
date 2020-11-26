@@ -2,6 +2,7 @@
 
 -- TODO: to be optimized
 
+```mysql
 -- auto-generated definition by idea
 create table t_user
 (
@@ -12,7 +13,9 @@ create table t_user
     password      varchar(20) not null,
     phone         varchar(11) not null
 );
+```
 
+```mysql
 -- auto-generated definition by idea
 create table t_order
 (
@@ -23,10 +26,11 @@ create table t_order
     status             varchar(255) not null,
     total_price        varchar(20)  not null,
     buyer_id           bigint       not null,
-    constraint FKk26ipfwqtjq9995jrn29murlt
-        foreign key (buyer_id) references t_user (id)
+    constraint FKk26ipfwqtjq9995jrn29murlt foreign key (buyer_id) references t_user (id)
 );
+```
 
+```mysql
 -- auto-generated definition by idea
 create table t_merchandise
 (
@@ -35,6 +39,7 @@ create table t_merchandise
     price    varchar(10) not null,
     weight   varchar(10) null,
     order_id bigint      not null,
-    constraint FK3it2cp3fx6v6cqo4bp3fnqjuc
-        foreign key (order_id) references t_order (id)
+    constraint FK3it2cp3fx6v6cqo4bp3fnqjuc foreign key (order_id) references t_order (id)
 );
+```
+
