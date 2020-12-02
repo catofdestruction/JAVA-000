@@ -50,10 +50,10 @@ public class UserDO extends IdDO {
     private Integer gender;
 
     /**
-     * name
+     * real name
      */
     @Column(nullable = false, length = 10)
-    private String name;
+    private String realName;
 
     /**
      * phone
@@ -70,7 +70,7 @@ public class UserDO extends IdDO {
     /**
      * register time
      */
-    @Column(nullable = false, columnDefinition = "TIMESTAMP")
+    @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Long registerTime;
 
     /**

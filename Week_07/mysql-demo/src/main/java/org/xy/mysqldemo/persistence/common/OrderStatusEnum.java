@@ -11,31 +11,27 @@ import org.apache.commons.lang3.EnumUtils;
 public enum OrderStatusEnum {
 
     /**
+     * 代付款
+     */
+    WAIT_FOR_PAYMENT,
+
+    /**
      * 已下单
      */
-    ORDERED("已下单"),
+    ORDERED,
+
+    /**
+     * 等待发货
+     */
+    WAIT_FOR_DELIVERY,
 
     /**
      * 已发货
      */
-    SHIPPED("已发货"),
+    DELIVERED,
 
     /**
      * 已收货
      */
-    RECEIVED("已收货");
-
-    private final String desc;
-
-    OrderStatusEnum(String desc) {
-        this.desc = desc;
-    }
-
-    public String desc() {
-        return desc;
-    }
-
-    public static OrderStatusEnum status(String name) {
-        return EnumUtils.getEnum(OrderStatusEnum.class, name);
-    }
+    RECEIVE
 }

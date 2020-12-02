@@ -38,8 +38,8 @@ public class ProductDO extends IdDO {
     @Column(length = 10)
     private String weight;
 
-    @ToString.Exclude
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "order_id", nullable = false, updatable = false)
-    private OrderDO order;
+//    @ToString.Exclude
+//    @ManyToOne(optional = false)
+//    @JoinColumn(name = "order_id", nullable = false, updatable = false)
+//    private OrderDO order;
 }
