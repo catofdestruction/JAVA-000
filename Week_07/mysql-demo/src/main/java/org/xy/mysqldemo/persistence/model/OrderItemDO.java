@@ -3,13 +3,9 @@ package org.xy.mysqldemo.persistence.model;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
-import org.xy.mysqldemo.persistence.common.OrderStatusEnum;
-import org.xy.mysqldemo.persistence.common.PayTypeEnum;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -82,12 +78,12 @@ public class OrderItemDO extends IdDO {
     /**
      * create date
      */
-    @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(nullable = false, columnDefinition = "BIGINT(20)")
     private Long createdDate;
 
     /**
      * last modified date
      */
-    @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(nullable = false, columnDefinition = "BIGINT(20)")
     private Long lastModifiedDate;
 }
