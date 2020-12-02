@@ -1,6 +1,11 @@
 package org.xy.mysqldemo.persistence.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.xy.mysqldemo.persistence.common.OrderStatusEnum;
@@ -17,6 +22,9 @@ import javax.persistence.Table;
  * @date 2020/12/02
  */
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "t_order_item")
 public class OrderItemDO extends IdDO {

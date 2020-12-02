@@ -1,6 +1,11 @@
 package org.xy.mysqldemo.persistence.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.Column;
@@ -10,12 +15,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- * MerchandiseDO
+ * ProductDO
  *
  * @author wangxinyu
  * @date 2020/11/25
  */
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "t_product")
 public class ProductDO extends IdDO {

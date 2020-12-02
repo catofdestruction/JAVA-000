@@ -1,6 +1,11 @@
 package org.xy.mysqldemo.persistence.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -21,6 +26,9 @@ import java.util.List;
  * @date 2020/11/25
  */
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "t_user")
 public class UserDO extends IdDO {
