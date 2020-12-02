@@ -1,7 +1,5 @@
 package org.xy.mysqldemo.persistence.common;
 
-import org.apache.commons.lang3.EnumUtils;
-
 /**
  * OrderStatusEnum
  *
@@ -11,7 +9,7 @@ import org.apache.commons.lang3.EnumUtils;
 public enum OrderStatusEnum {
 
     /**
-     * 代付款
+     * 待付款
      */
     WAIT_FOR_PAYMENT,
 
@@ -21,7 +19,7 @@ public enum OrderStatusEnum {
     ORDERED,
 
     /**
-     * 等待发货
+     * 待发货
      */
     WAIT_FOR_DELIVERY,
 
