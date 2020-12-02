@@ -17,8 +17,8 @@ import javax.persistence.Table;
  */
 @Data
 @Entity
-@Table(name = "t_merchandise")
-public class MerchandiseDO extends IdDO {
+@Table(name = "t_product")
+public class ProductDO extends IdDO {
 
     /**
      * name

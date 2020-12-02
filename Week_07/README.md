@@ -3,15 +3,19 @@
 -- TODO: to be optimized
 
 ```mysql
--- auto-generated definition by idea
 create table t_user
 (
-    id            bigint auto_increment primary key,
-    account       varchar(30) not null,
-    identity_card varchar(18) not null,
-    name          varchar(30) not null,
-    password      varchar(20) not null,
-    phone         varchar(11) not null
+    id            bigint auto_increment 							primary key,
+    account       varchar(30)                         not null,
+    birthday      datetime                            null,
+    gender        tinyint(1)                          not null,
+    identity_card varchar(19)                         not null,
+    level         tinyint(1)                          not null,
+    name          varchar(10)                         not null,
+    nick_name     varchar(30)                         null,
+    password      varchar(20)                         not null,
+    phone         varchar(11)                         not null,
+    register_time timestamp default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP
 );
 ```
 

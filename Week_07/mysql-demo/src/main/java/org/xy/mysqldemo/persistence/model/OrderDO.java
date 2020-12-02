@@ -26,13 +26,13 @@ import java.util.List;
 @Table(name = "t_order")
 public class OrderDO extends IdDO {
 
-    /**
-     * buyer id
-     */
-    @ToString.Exclude
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "buyer_id", nullable = false, updatable = false)
-    private UserDO user;
+//    /**
+//     * buyer id
+//     */
+//    @ToString.Exclude
+//    @ManyToOne(optional = false)
+//    @JoinColumn(name = "buyer_id", nullable = false, updatable = false)
+//    private UserDO user;
 
     /**
      * seller id
@@ -69,5 +69,5 @@ public class OrderDO extends IdDO {
      * merchandise list
      */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
-    private List<MerchandiseDO> merchandises;
+    private List<ProductDO> merchandises;
 }

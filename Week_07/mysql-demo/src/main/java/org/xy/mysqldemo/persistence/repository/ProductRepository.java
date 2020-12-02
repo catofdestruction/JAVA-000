@@ -1,7 +1,7 @@
 package org.xy.mysqldemo.persistence.repository;
 
 import org.springframework.stereotype.Repository;
-import org.xy.mysqldemo.persistence.model.MerchandiseDO;
+import org.xy.mysqldemo.persistence.model.ProductDO;
 
 /**
  * MerchandiseRepository
@@ -10,5 +10,5 @@ import org.xy.mysqldemo.persistence.model.MerchandiseDO;
  * @date 2020/11/25
  */
 @Repository
-public interface MerchandiseRepository extends BaseRepository<MerchandiseDO, Long> {
+public interface ProductRepository extends BaseRepository<ProductDO, Long> {
 }

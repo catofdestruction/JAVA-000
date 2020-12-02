@@ -1,12 +1,17 @@
 package org.xy.mysqldemo.persistence.model;
 
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,9 +38,21 @@ public class UserDO extends IdDO {
     private String password;
 
     /**
+     * nick name
+     */
+    @Column(length = 30)
+    private String nickName;
+
+    /**
+     * gender
+     */
+    @Column(nullable = false, columnDefinition = "TINYINT(1)")
+    private Integer gender;
+
+    /**
      * name
      */
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = 10)
     private String name;
 
     /**
@@ -47,12 +64,26 @@ public class UserDO extends IdDO {
     /**
      * identity card
      */
-    @Column(nullable = false, length = 18)
+    @Column(nullable = false, length = 19)
     private String identityCard;
 
     /**
-     * order list
+     * register time
      */
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private List<OrderDO> orders;
+    @Column(nullable = false, columnDefinition = "TIMESTAMP")
+    private Long registerTime;
+
+    /**
+     * birthday
+     */
+    @Temporal(TemporalType.DATE)
+    @Column(columnDefinition = "DATETIME")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date birthday;
+
+    /**
+     * gender
+     */
+    @Column(nullable = false, columnDefinition = "TINYINT(1)")
+    private Integer level;
 }
