@@ -54,13 +54,13 @@ public class ProductDO extends IdDO {
      * price
      */
     @Column(nullable = false, columnDefinition = "DECIMAL(10, 2)")
-    private String price;
+    private Double price;
 
     /**
      * weight
      */
     @Column(nullable = false, columnDefinition = "DECIMAL(10, 2)")
-    private String weight;
+    private Double weight;
 
 
     private String imageUrl;

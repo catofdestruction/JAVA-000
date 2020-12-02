@@ -1,6 +1,8 @@
 package org.xy.mysqldemo.persistence.model;
 
 import lombok.Data;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.LastModifiedBy;
 import org.xy.mysqldemo.persistence.common.OrderStatusEnum;
 import org.xy.mysqldemo.persistence.common.PayTypeEnum;
 
@@ -59,12 +61,6 @@ public class OrderDO extends IdDO {
      */
     @Column(nullable = false, columnDefinition = "DECIMAL(10, 2)")
     private Double payAmount;
-
-    /**
-     * pay type
-     */
-    @Column(nullable = false, columnDefinition = "TINYINT(1)")
-    private Integer gender;
 
     /**
      * pay type

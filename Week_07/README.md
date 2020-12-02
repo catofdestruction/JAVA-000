@@ -35,7 +35,6 @@ create table t_order
     total_amount       decimal(10, 2)                      not null,
     freight_amount     decimal(10, 2)                      not null,
     pay_amount         decimal(10, 2)                      not null,
-    gender             tinyint(1)                          not null,
     pay_type           tinyint(1)                          not null,
     status             tinyint(1)                          not null,
     address_id         bigint(19)                          not null,
@@ -69,6 +68,31 @@ create table t_product
     last_modified_date timestamp default CURRENT_TIMESTAMP not null,
     constraint UK_ctthk2vsd6kc2v4lebsrnqawx
         unique (product_sn)
+);
+```
+
+```mysql
+create table t_order_item
+(
+    id                   bigint auto_increment
+        primary key,
+    order_id             bigint                              not null,
+    order_sn             varchar(64)                         not null,
+    product_id           bigint                              not null,
+    product_price        decimal(10, 2)                      not null,
+    product_quantity     int(10)                             not null,
+    product_total_amount decimal(10, 2)                      not null,
+    is_deleted           bit                                 not null,
+    created_by           varchar(30)                         null,
+    last_modified_by     varchar(30)                         null,
+    created_date         timestamp default CURRENT_TIMESTAMP not null,
+    last_modified_date   timestamp default CURRENT_TIMESTAMP not null,
+    constraint UK_25kiqjvhra3qu4t60vxvh2u7p
+        unique (product_id),
+    constraint UK_ikue62vow9wl5x6d4h5n67wsm
+        unique (order_sn),
+    constraint UK_tr4wwliho4mtheslf3eugb9km
+        unique (order_id)
 );
 ```
 
