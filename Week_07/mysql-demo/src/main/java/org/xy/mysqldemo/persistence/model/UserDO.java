@@ -28,7 +28,7 @@ public class UserDO extends IdDO {
     /**
      * account
      */
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = 30, unique = true)
     private String account;
 
     /**
@@ -40,7 +40,7 @@ public class UserDO extends IdDO {
     /**
      * nick name
      */
-    @Column(length = 30)
+    @Column(length = 30, unique = true)
     private String nickName;
 
     /**
@@ -58,7 +58,7 @@ public class UserDO extends IdDO {
     /**
      * phone
      */
-    @Column(nullable = false, length = 11)
+    @Column(nullable = false, length = 11, unique = true)
     private String phone;
 
     /**

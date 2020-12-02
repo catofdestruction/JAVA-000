@@ -27,7 +27,7 @@ public class OrderDO extends IdDO {
     /**
      * order serial number
      */
-    @Column(nullable = false, name = "order_sn", length = 64)
+    @Column(nullable = false, name = "order_sn", length = 64, unique = true)
     private String orderSn;
 
     /**
@@ -87,7 +87,7 @@ public class OrderDO extends IdDO {
     /**
      * delivery serial number
      */
-    @Column(name = "delivery_sn", length = 64)
+    @Column(name = "delivery_sn", length = 64, unique = true)
     private String deliverySn;
 
     /**

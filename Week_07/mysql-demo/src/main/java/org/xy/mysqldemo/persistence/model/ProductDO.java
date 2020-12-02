@@ -21,25 +21,65 @@ import javax.persistence.Table;
 public class ProductDO extends IdDO {
 
     /**
+     * product serial number
+     */
+    @Column(nullable = false, name = "product_sn", length = 64, unique = true)
+    private String productSn;
+
+    /**
+     * brand id
+     */
+    @Column(columnDefinition = "BIGINT(20)")
+    private Long brandId;
+
+    /**
+     * category id
+     */
+    @Column(columnDefinition = "BIGINT(20)")
+    private Long categoryId;
+
+    /**
      * name
      */
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = 64)
     private String name;
+
+    /**
+     * description
+     */
+    @Column(nullable = false)
+    private String description;
 
     /**
      * price
      */
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false, columnDefinition = "DECIMAL(10, 2)")
     private String price;
 
     /**
      * weight
      */
-    @Column(length = 10)
+    @Column(nullable = false, columnDefinition = "DECIMAL(10, 2)")
     private String weight;
 
-//    @ToString.Exclude
-//    @ManyToOne(optional = false)
-//    @JoinColumn(name = "order_id", nullable = false, updatable = false)
-//    private OrderDO order;
+
+    private String imageUrl;
+
+    /**
+     * isDelete
+     */
+    @Column(nullable = false)
+    private Boolean isDeleted;
+
+    /**
+     * create date
+     */
+    @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Long createdDate;
+
+    /**
+     * last modified date
+     */
+    @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Long lastModifiedDate;
 }
