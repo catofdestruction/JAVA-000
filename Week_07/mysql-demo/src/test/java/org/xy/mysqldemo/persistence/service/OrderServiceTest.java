@@ -64,6 +64,7 @@ class OrderServiceTest extends BaseJpaTest {
         stopWatch.start();
         IntStream.range(0, 1000).parallel().forEach(integer -> {
             CopyOnWriteArrayList<OrderDO> orderBatch = new CopyOnWriteArrayList<>();
+//            Collections.synchronizedList()
             IntStream.range(0, 1000).parallel().forEach(value -> orderBatch.add(this.createOrder()));
             orderService.saveAll(orderBatch);
         });
