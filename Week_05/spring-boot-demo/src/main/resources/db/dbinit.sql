@@ -6,6 +6,7 @@ CREATE DATABASE xydb;
 -- 创建登录用户xy/口令xy
 CREATE USER IF NOT EXISTS 'xy'@'%' IDENTIFIED BY 'xy';
 GRANT ALL PRIVILEGES ON xydb.* TO 'xy'@'%' WITH GRANT OPTION;
+GRANT REPLICATION SLAVE ON *.* TO 'xy'@'%';
 FLUSH PRIVILEGES;
 
 -- 创建表concurrent_trip:
