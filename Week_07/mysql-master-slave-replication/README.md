@@ -729,3 +729,20 @@ Master_SSL_Verify_Server_Cert: No
 mysql>
 ```
 
+
+
+[MYSQL database replication Error MY-002061](https://dba.stackexchange.com/questions/218207/mysql-database-replication-error-my-002061)
+
+主从复制报错2061解决方案
+
+```sql
+CHANGE MASTER TO GET_MASTER_PUBLIC_KEY=1;
+```
+
+CHANGE MASTER TO
+    MASTER_HOST='127.0.0.1',  
+    MASTER_PORT = 3316,
+    MASTER_USER='xy',      
+    MASTER_PASSWORD='xy',   
+    MASTER_LOG_FILE='mysql-bin.000015',
+    MASTER_LOG_POS=1078;
