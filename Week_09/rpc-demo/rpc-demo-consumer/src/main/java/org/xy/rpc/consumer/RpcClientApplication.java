@@ -15,5 +15,7 @@ public class RpcClientApplication {
 
     public static void main(String[] args) {
         log.info("{}", RpcClientApplication.class);
+
+
     }
 }

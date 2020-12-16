@@ -13,13 +13,13 @@
 
     <dependencies>
         <dependency>
-            <groupId>io.kimmking</groupId>
-            <artifactId>rpcfx-core</artifactId>
+            <groupId>org.xy</groupId>
+            <artifactId>rpc-demo-api</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.kimmking</groupId>
-            <artifactId>rpcfx-demo-api</artifactId>
+            <groupId>org.xy</groupId>
+            <artifactId>rpc-demo-core</artifactId>
             <version>${project.version}</version>
         </dependency>
 
