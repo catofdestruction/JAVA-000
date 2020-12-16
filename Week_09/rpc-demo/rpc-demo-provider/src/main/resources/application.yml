@@ -1,0 +1,15 @@
+logging:
+  level:
+    ROOT: INFO
+
+server:
+  port: 8167
+  tomcat:
+    uri-encoding: UTF-8
+
+spring:
+  application:
+    name: RpcServerDemo
+  profiles:
+    active: dev
+
