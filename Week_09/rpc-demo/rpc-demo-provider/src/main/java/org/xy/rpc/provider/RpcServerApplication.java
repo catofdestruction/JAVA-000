@@ -64,13 +64,12 @@ public class RpcServerApplication {
         return invoker.invoke(request);
     }
 
-    // TODO: remove name
-    @Bean(name = "org.xy.rpc.api.service.UserService")
+    @Bean
     public UserService createUserService() {
         return new UserServiceImpl();
     }
 
-    @Bean(name = "org.xy.rpc.api.service.OrderService")
+    @Bean
     public OrderService createOrderService() {
         return new OrderServiceImpl();
     }

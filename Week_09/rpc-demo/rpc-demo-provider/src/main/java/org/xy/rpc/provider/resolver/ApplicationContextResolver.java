@@ -21,6 +21,11 @@ public class ApplicationContextResolver implements RpcResolver, ApplicationConte
 
     @Override
     public Object resolve(String serviceClass) {
-        return this.applicationContext.getBean(serviceClass);
+        try {
+            return this.applicationContext.getBean(Class.forName(serviceClass));
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
