@@ -2,8 +2,6 @@ package org.xy.rpc.core.server;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.xy.rpc.core.api.RpcRequest;
 import org.xy.rpc.core.api.RpcResponse;
 import org.xy.rpc.core.resolver.RpcResolver;
@@ -18,11 +16,13 @@ import java.util.Arrays;
  * @author wangxinyu
  * @date 2020/12/18
  */
-@NoArgsConstructor
-@AllArgsConstructor
 public class RpcInvoker {
 
-    private RpcResolver resolver;
+    private final RpcResolver resolver;
+
+    public RpcInvoker(RpcResolver resolver){
+        this.resolver = resolver;
+    }
 
     /**
      * invoke real service impl with rpc request
