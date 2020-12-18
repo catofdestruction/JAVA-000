@@ -3,6 +3,7 @@ package org.xy.rpc.core.client;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.parser.ParserConfig;
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -22,6 +23,7 @@ import java.util.Objects;
  * @author wangxinyu
  * @date 2020/12/16
  */
+@Slf4j
 public final class RpcJdkProxyFactory {
 
     static {
@@ -52,18 +54,15 @@ public final class RpcJdkProxyFactory {
         // [], data class
         @Override
         public Object invoke(Object proxy, Method method, Object[] params) throws Throwable {
-            RpcRequest request = new RpcRequest();
-            request.setServiceClass(this.serviceClass.getName());
-            request.setMethod(method.getName());
-            request.setParams(params);
+            RpcRequest request = new RpcRequest(this.serviceClass.getName(), method.getName(), params);
             RpcResponse response = post(request, url);
             // TODO: response status for handling RpcException
-            return JSON.parse(response.getResult().toString());
+            return response.getResult();
         }
 
         private RpcResponse post(RpcRequest req, String url) throws IOException {
             String reqJson = JSON.toJSONString(req);
-            System.out.println("req json: " + reqJson);
+            log.info("\n[request]: {}\n", reqJson);
             // TODO: reuse client
             // TODO: http client/netty client
             OkHttpClient client = new OkHttpClient();
@@ -71,7 +70,7 @@ public final class RpcJdkProxyFactory {
                                                          .post(RequestBody.create(JSON_TYPE, reqJson))
                                                          .build();
             String respJson = Objects.requireNonNull(client.newCall(request).execute().body()).string();
-            System.out.println("resp json: " + respJson);
+            log.info("\n[response]: {}\n", respJson);
             return JSON.parseObject(respJson, RpcResponse.class);
         }
     }

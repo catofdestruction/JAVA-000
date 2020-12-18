@@ -26,6 +26,15 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+<!-- exclude spring-boot-starter-json for using fastjson SerializerFeature.WriteClassName
+ref: https://blog.csdn.net/gnail_oug/article/details/80239767
+-->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-json</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 </project>
