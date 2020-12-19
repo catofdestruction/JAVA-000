@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.xy.rpc.api.service.OrderService;
 import org.xy.rpc.api.service.UserService;
-import org.xy.rpc.core.client.RpcJdkProxyFactory;
+import org.xy.rpc.core.client.RpcJdkProxy;
 
 /**
  * RpcClientApplication
@@ -21,10 +21,10 @@ public class RpcClientApplication {
     public static void main(String[] args) {
         log.info("{}", RpcClientApplication.class);
 
-        UserService userService = RpcJdkProxyFactory.getProxy(UserService.class, HOST_URL);
-        userService.findUserById(666);
+        UserService userService = RpcJdkProxy.create(UserService.class, HOST_URL);
+        log.warn("{}", userService.findUserById(666));
 
-        OrderService orderService = RpcJdkProxyFactory.getProxy(OrderService.class, HOST_URL);
-        orderService.findOrderById(999);
+        OrderService orderService = RpcJdkProxy.create(OrderService.class, HOST_URL);
+        log.warn("{}", orderService.findOrderById(999));
     }
 }

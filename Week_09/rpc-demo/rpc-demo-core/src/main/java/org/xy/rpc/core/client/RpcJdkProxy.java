@@ -24,17 +24,17 @@ import java.util.Objects;
  * @date 2020/12/16
  */
 @Slf4j
-public final class RpcJdkProxyFactory {
+public final class RpcJdkProxy {
 
     static {
         ParserConfig.getGlobalInstance().addAccept("org.xy");
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> T getProxy(final Class<T> serviceClass, final String url) {
+    public static <T> T create(final Class<T> serviceClass, final String url) {
         // TODO: AOP
-        return (T) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
-                new Class[]{serviceClass}, new InvokerInvocationHandler(serviceClass, url));
+        return (T) Proxy.newProxyInstance(serviceClass.getClassLoader(), new Class[]{serviceClass},
+                new InvokerInvocationHandler(serviceClass, url));
     }
 
     public static class InvokerInvocationHandler implements InvocationHandler {
@@ -44,17 +44,21 @@ public final class RpcJdkProxyFactory {
         private final Class<?> serviceClass;
         private final String url;
 
-        public <T> InvokerInvocationHandler(Class<T> serviceClass, String url) {
+        public InvokerInvocationHandler(Class<?> serviceClass, String url) {
             this.serviceClass = serviceClass;
             this.url = url;
         }
 
-        // TODO: serialization(json/binary/text)  json: code.google.com/p/rpcfx
-        // int byte char float double long bool
-        // [], data class
         @Override
-        public Object invoke(Object proxy, Method method, Object[] params) throws Throwable {
-            RpcRequest request = new RpcRequest(this.serviceClass.getName(), method.getName(), params);
+        public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+            // do origin logic ref: https://juejin.cn/post/6844903478582575111
+//            method.invoke(serviceClass.newInstance(), args);
+
+            // do proxy logic (request remote rpc provider with service meta)
+            // TODO: serialization(json/binary/text)  json: code.google.com/p/rpcfx
+            // int byte char float double long bool
+            // [], data class
+            RpcRequest request = new RpcRequest(serviceClass.getName(), method.getName(), args);
             RpcResponse response = post(request, url);
             // TODO: response status for handling RpcException
             return response.getResult();
