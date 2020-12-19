@@ -1,24 +1,19 @@
 package org.xy.rpc.core.client;
 
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.parser.ParserConfig;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
 import org.xy.rpc.core.api.RpcRequest;
 import org.xy.rpc.core.api.RpcResponse;
 
-import java.io.IOException;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.Objects;
 
 /**
- * RpcJdkProxyFactory
+ * RpcJdkProxy
  *
  * @author wangxinyu
  * @date 2020/12/16
@@ -31,23 +26,18 @@ public final class RpcJdkProxy {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> T create(final Class<T> serviceClass, final String url) {
+    public static <T> T create(final Invoker invoker) {
         // TODO: AOP
+        Class<?> serviceClass = invoker.getServiceClass();
         return (T) Proxy.newProxyInstance(serviceClass.getClassLoader(), new Class[]{serviceClass},
-                new InvokerInvocationHandler(serviceClass, url));
+                new InvokerInvocationHandler(invoker));
     }
 
-    public static class InvokerInvocationHandler implements InvocationHandler {
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class InvokerInvocationHandler implements InvocationHandler, TempPostInterface {
 
-        public static final MediaType JSON_TYPE = MediaType.get("application/json; charset=utf-8");
-
-        private final Class<?> serviceClass;
-        private final String url;
-
-        public InvokerInvocationHandler(Class<?> serviceClass, String url) {
-            this.serviceClass = serviceClass;
-            this.url = url;
-        }
+        private Invoker invoker;
 
         @Override
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
@@ -58,24 +48,10 @@ public final class RpcJdkProxy {
             // TODO: serialization(json/binary/text)  json: code.google.com/p/rpcfx
             // int byte char float double long bool
             // [], data class
-            RpcRequest request = new RpcRequest(serviceClass.getName(), method.getName(), args);
-            RpcResponse response = post(request, url);
+            RpcRequest request = new RpcRequest(invoker.getServiceClass().getName(), method.getName(), args);
+            RpcResponse response = post(request, invoker.getUrl());
             // TODO: response status for handling RpcException
             return response.getResult();
-        }
-
-        private RpcResponse post(RpcRequest req, String url) throws IOException {
-            String reqJson = JSON.toJSONString(req);
-            log.info("\n[request]: {}\n", reqJson);
-            // TODO: reuse client
-            // TODO: http client/netty client
-            OkHttpClient client = new OkHttpClient();
-            final Request request = new Request.Builder().url(url)
-                                                         .post(RequestBody.create(JSON_TYPE, reqJson))
-                                                         .build();
-            String respJson = Objects.requireNonNull(client.newCall(request).execute().body()).string();
-            log.info("\n[response]: {}\n", respJson);
-            return JSON.parseObject(respJson, RpcResponse.class);
         }
     }
 }
