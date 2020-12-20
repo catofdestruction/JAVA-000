@@ -38,9 +38,9 @@ public class RpcClientApplication {
 
     public static void invokeByCglibProxy() {
         log.warn("\n========== RpcCglibProxy ==========\n");
-        UserService userService = RpcCglibProxy.create(new RpcCglibProxy.InvokerMethodInterceptor(USER_INVOKER));
+        UserService userService = RpcCglibProxy.create(USER_INVOKER);
         log.warn("{}", userService.findUserById(666));
-        OrderService orderService = RpcCglibProxy.create(new RpcCglibProxy.InvokerMethodInterceptor(ORDER_INVOKER));
+        OrderService orderService = RpcCglibProxy.create(ORDER_INVOKER);
         log.warn("{}", orderService.findOrderById(999));
     }
 }

@@ -33,7 +33,7 @@ public interface TempPostInterface {
      * @return RpcResponse
      * @throws IOException IOException
      */
-    default RpcResponse post(RpcRequest req, String url) throws IOException {
+    static RpcResponse post(RpcRequest req, String url) throws IOException {
         String reqJson = JSON.toJSONString(req);
         log.info("\n[request]: {}\n", reqJson);
         // TODO: reuse client
