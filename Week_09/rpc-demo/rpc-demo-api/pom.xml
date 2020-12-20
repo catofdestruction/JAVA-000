@@ -11,5 +11,11 @@
 
     <artifactId>rpc-demo-api</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>org.xy</groupId>
+            <artifactId>rpc-demo-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
 </project>

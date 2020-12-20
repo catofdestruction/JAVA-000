@@ -15,6 +15,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Invoker {
 
+    /**
+     * class of proxy Service
+     */
     private Class<?> serviceClass;
+
+    /**
+     * RPC server naming url to connect.
+     */
     private String url;
 }
