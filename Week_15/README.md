@@ -1,5 +1,7 @@
 # Finally
 
+点击图片看大图, 精力有限, 持续更新中... ...
+
 ## 1 JVM
 
 ![](./assets/JVM.png)
@@ -20,6 +22,10 @@
 
 ## 7 RPC 和微服务
 
+![](./assets/RPC.png)
+
 ## 8 分布式缓存
+
+![](./assets/Cache.png)
 
 ## 9 分布式消息队列
