@@ -2,11 +2,15 @@
 
 ## 1 JVM
 
-![](./JVM.png)
+![](./assets/JVM.png)
 
 ## 2 NIO
 
+![](./assets/NIO.png)
+
 ## 3 并发编程
+
+![](./assets/并发编程.png)
 
 ## 4 Spring 和 ORM 等框架
 
