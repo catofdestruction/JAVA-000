@@ -20,6 +20,8 @@
 
 ## 5 MySQL 数据库和 SQL
 
+![](./assets/Mysql.png)
+
 ## 6 分库分表
 
 ## 7 RPC 和微服务
