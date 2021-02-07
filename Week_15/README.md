@@ -24,6 +24,8 @@
 
 ## 6 分库分表
 
+![](./assets/分库分表.png)
+
 ## 7 RPC 和微服务
 
 ![](./assets/RPC.png)
@@ -33,3 +35,4 @@
 ![](./assets/Cache.png)
 
 ## 9 分布式消息队列
+
